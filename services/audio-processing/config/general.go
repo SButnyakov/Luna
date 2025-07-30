@@ -17,28 +17,7 @@ type Config struct {
 	HTTP  HTTPConfig
 	API   API
 	Audio AudioConfig
-}
-
-type HTTPConfig struct {
-	Host string `env:"HTTP_HOST" env-required:"true"`
-	Port int    `env:"HTTP_PORT" env-required:"true"`
-}
-
-type API struct {
-	V1 struct {
-		Root  string `env:"HTTP_API_V1" env-default:"/v1"`
-		Audio struct {
-			Root    string `env:"HTTP_API_AUDIO_GROUP" env-default:"/audio"`
-			Process string `env:"HTTP_API_AUDIO_PROCESS" env-default:"/process"`
-		}
-	}
-}
-
-type AudioConfig struct {
-	TargetBitrates           []int
-	SupportedInputFormats    []string
-	TargetBitratesStr        string `env:"TARGET_BITRATES"`
-	SupportedInputFormatsStr string `env:"SUPPORTED_INPUT_FORMATS"`
+	S3    S3Config
 }
 
 func Load() (*Config, error) {
