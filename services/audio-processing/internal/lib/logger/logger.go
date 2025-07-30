@@ -16,9 +16,20 @@ type Logger struct {
 	*slog.Logger
 }
 
-func NewLogger(level slog.Level) *Logger {
+func NewLogger(env string) *Logger {
+	var handler slog.Handler
+
+	switch env {
+	case "dev":
+		handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
+	case "prod":
+		handler = slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelInfo})
+	default: // local
+		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug})
+	}
+
 	return &Logger{
-		Logger: slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: level})),
+		Logger: slog.New(handler),
 	}
 }
 
@@ -30,7 +41,16 @@ func FromContext(ctx context.Context) *Logger {
 	if logger, ok := ctx.Value(loggerCtxKey).(*Logger); ok {
 		return logger
 	}
-	return NewLogger(slog.LevelInfo)
+
+	if env, ok := ctx.Value("ENV").(string); ok {
+		return NewLogger(env)
+	}
+
+	if env, ok := os.LookupEnv("ENV"); ok {
+		return NewLogger(env)
+	}
+
+	return NewLogger("local")
 }
 
 func (l *Logger) WarnWithOp(op, msg string, args ...any) {

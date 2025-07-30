@@ -1,13 +1,18 @@
 package main
 
 import (
-	"fmt"
+	"os"
 
-	"github.com/SButnyakov/luna/audio-processing/config"
+	"github.com/SButnyakov/luna/audio-processing/internal/app"
+	"github.com/joho/godotenv"
 )
 
-func main() {
-	cfg := config.MustLoad()
+const envFileName = ".env"
 
-	fmt.Println(cfg)
+func main() {
+	if _, err := os.Stat(envFileName); !os.IsNotExist(err) {
+		godotenv.Load(envFileName)
+	}
+
+	app.Run()
 }
