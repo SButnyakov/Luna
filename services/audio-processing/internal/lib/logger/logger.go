@@ -54,21 +54,21 @@ func FromContext(ctx context.Context) *Logger {
 }
 
 func (l *Logger) WarnWithOp(op, msg string, args ...any) {
-	args = append([]any{slog.String("op", op), slog.String("msg", msg)}, args...)
+	args = append([]any{slog.String("op", op)}, args...)
 	l.Warn(msg, args...)
 }
 
 func (l *Logger) InfoWithOp(op, msg string, args ...any) {
-	args = append([]any{slog.String("op", op), slog.String("msg", msg)}, args...)
+	args = append([]any{slog.String("op", op)}, args...)
 	l.Info(msg, args...)
 }
 
-func (l *Logger) ErrorWithOp(op, msg string, args ...any) {
-	args = append([]any{slog.String("op", op), slog.String("msg", msg)}, args...)
+func (l *Logger) ErrorWithOp(op, msg string, err error, args ...any) {
+	args = append([]any{slog.String("op", op), slog.Any("err", err)}, args...)
 	l.Error(msg, args...)
 }
 
 func (l *Logger) DebugWithOp(op, msg string, args ...any) {
-	args = append([]any{slog.String("op", op), slog.String("msg", msg)}, args...)
+	args = append([]any{slog.String("op", op)}, args...)
 	l.Debug(msg, args...)
 }

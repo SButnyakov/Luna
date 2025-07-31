@@ -19,7 +19,7 @@ type s3Storage struct {
 	bucketName  string
 }
 
-func NewS3Storage(config config.S3Config) (*s3Storage, error) {
+func NewS3Storage(config config.S3StorageConfig) (*s3Storage, error) {
 	cfg, err := awsconfig.LoadDefaultConfig(context.TODO(),
 		awsconfig.WithRetryMaxAttempts(3),
 		awsconfig.WithRetryMode(aws.RetryModeAdaptive),
