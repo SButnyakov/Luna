@@ -23,7 +23,7 @@ type fileRepository struct {
 	cfg     config.S3AudioConfig
 }
 
-func NewFileRepository(ctx context.Context, storage fileStorage, cfg config.S3AudioConfig) *fileRepository {
+func NewFileRepository(ctx context.Context, storage fileStorage, cfg config.S3AudioConfig) *fileRepository { // TODO: config service
 	return &fileRepository{
 		storage: storage,
 		logger:  logger.FromContext(ctx),

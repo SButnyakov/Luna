@@ -11,7 +11,9 @@ import (
 	"github.com/SButnyakov/luna/audio-processing/config"
 	httphandlers "github.com/SButnyakov/luna/audio-processing/internal/http_handlers"
 	applogger "github.com/SButnyakov/luna/audio-processing/internal/lib/logger"
+	"github.com/SButnyakov/luna/audio-processing/internal/repository"
 	"github.com/SButnyakov/luna/audio-processing/internal/services"
+	"github.com/SButnyakov/luna/audio-processing/internal/storage"
 	"github.com/SButnyakov/luna/audio-processing/internal/usecases"
 	"github.com/gin-gonic/gin"
 )
@@ -25,12 +27,20 @@ func Run() {
 	logger := applogger.NewLogger(cfg.Env)
 	ctx := applogger.WithContext(context.Background(), logger)
 
+	// storage
+	s3Storage, err := storage.NewS3Storage(cfg.S3.Storage)
+	if err != nil {
+		log.Fatalf("failed to create S3 storage: %v", err)
+	}
+
+	// repositories
+	fileRepository := repository.NewFileRepository(ctx, s3Storage, cfg.S3.Audio)
+
 	// services
-	fileService := services.NewFileService()
 	configService := services.NewConfigService(ctx, cfg)
 
 	// usecases
-	processAudioUsecase := usecases.NewProcessAudioUsecase(ctx, fileService, configService)
+	processAudioUsecase := usecases.NewProcessAudioUsecase(ctx, fileRepository, configService)
 
 	// router
 	router := gin.Default()
