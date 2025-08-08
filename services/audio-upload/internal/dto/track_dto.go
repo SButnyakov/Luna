@@ -6,13 +6,14 @@ import (
 )
 
 type UploadTrackDTO struct {
-	Title       string     `json:"title"`
-	ArtistIDs   []string   `json:"artist_ids"`
-	Duration    int        `json:"duration"`
-	ReleaseDate *time.Time `json:"release_date,omitempty"`
-	File        io.Reader  `json:"-"`
-	FileName    string     `json:"file_name"`
-	ContentType string     `json:"content_type"`
+	Title       string         `json:"title"`
+	ArtistIDs   []string       `json:"artist_ids"`
+	Genres      []string       `json:"genres"`
+	Duration    int            `json:"duration"`
+	ReleaseDate time.Time      `json:"release_date,omitempty"`
+	File        io.Reader      `json:"-"`
+	FileName    string         `json:"file_name"`
+	Covers      map[int]string `json:"covers"`
 }
 
 type UpdateTrackStatusDTO struct {
