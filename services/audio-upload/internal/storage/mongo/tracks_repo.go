@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/SButnyakov/luna/audio-upload/logger"
-	"github.com/SButnyakov/luna/audio-upload/models"
+	"github.com/SButnyakov/luna/audio-upload/internal/logger"
+	"github.com/SButnyakov/luna/audio-upload/internal/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"

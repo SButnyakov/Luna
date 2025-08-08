@@ -7,5 +7,5 @@ type S3Config struct {
 	EndpointURL     string `env:"AWS_ENDPOINT_URL" env-required:"true"`
 	BucketName      string `env:"AWS_BUCKET_NAME" env-required:"true"`
 	BucketKMSKeyID  string `env:"AWS_BUCKET_KMS_KEY_ID" env-required:"true"`
-	AudioBaseKey    string `env:"AWS_S3_MP3_BASE_KEY" env-required:"true"`
+	TracksBaseKey   string `env:"AWS_S3_TRACKS_MP3_BASE_KEY" env-required:"true"`
 }
