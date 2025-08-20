@@ -2,15 +2,17 @@ package usecases
 
 import (
 	"context"
+	"io"
 
 	"github.com/SButnyakov/luna/audio-processing/config"
 	"github.com/SButnyakov/luna/audio-processing/internal/dto"
 	"github.com/SButnyakov/luna/audio-processing/internal/lib/logger"
+	"github.com/SButnyakov/luna/audio-processing/internal/models"
 )
 
 type audioFileProvider interface {
-	GetAudio(string)
-	UploadPlaylist()
+	GetFile(ctx context.Context, key string) (io.ReadCloser, error)
+	SaveHLSPlaylistBatch(ctx context.Context, playlists []models.HLSPlaylist) error
 }
 
 type audioConfigProvider interface {

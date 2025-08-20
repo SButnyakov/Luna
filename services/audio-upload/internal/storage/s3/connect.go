@@ -1,4 +1,4 @@
-package storage
+package s3
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"io"
 	"sync"
 
-	"github.com/SButnyakov/luna/audio-processing/config"
+	"github.com/SButnyakov/luna/audio-upload/config"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	awsconfig "github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
@@ -19,7 +19,7 @@ type s3Storage struct {
 	bucketName  string
 }
 
-func NewS3Storage(config config.S3StorageConfig) (*s3Storage, error) {
+func Connect(config config.S3Config) (*s3Storage, error) {
 	cfg, err := awsconfig.LoadDefaultConfig(context.TODO(),
 		awsconfig.WithRetryMaxAttempts(3),
 		awsconfig.WithRetryMode(aws.RetryModeAdaptive),
@@ -30,7 +30,7 @@ func NewS3Storage(config config.S3StorageConfig) (*s3Storage, error) {
 
 	storage := &s3Storage{
 		client:      s3.NewFromConfig(cfg),
-		bucketKeyID: config.BucketKeyID,
+		bucketKeyID: config.BucketKMSKeyID,
 		bucketName:  config.BucketName,
 	}
 
