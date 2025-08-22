@@ -1,0 +1,14 @@
+version: '3'
+
+tasks:
+  setup:
+    desc: "install project dependencies"
+    cmds:
+      - go install github.com/pressly/goose/v3/cmd/goose@latest
+      - go mod tidy
+  
+  run:
+    desc: "run application locally"
+    cmds:
+      - goose up
+      - go run main.go
